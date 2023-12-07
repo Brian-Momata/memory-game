@@ -1,27 +1,27 @@
 import './App.css';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 function Cards() {
   const phrases = [
-    "Day and Night",
-    "Sunrise and Sunset",
-    "Hot and Cold",
-    "Happy and Sad",
-    "Beginnings and Endings",
-    "High and Low",
-    "Fast and Slow",
-    "Open and Closed",
-    "Love and Hate",
-    "Up and Down",
-    "Lost and Found",
-    "Big and Small"
+    { id: uuidv4(), text: "Day and Night" },
+    { id: uuidv4(), text: "Sunrise and Sunset" },
+    { id: uuidv4(), text: "Hot and Cold" },
+    { id: uuidv4(), text: "Happy and Sad" },
+    { id: uuidv4(), text: "Beginnings and Endings" },
+    { id: uuidv4(), text: "High and Low" },
+    { id: uuidv4(), text: "Fast and Slow" },
+    { id: uuidv4(), text: "Open and Closed" },
+    { id: uuidv4(), text: "Love and Hate" },
+    { id: uuidv4(), text: "Up and Down" },
+    { id: uuidv4(), text: "Lost and Found" },
+    { id: uuidv4(), text: "Big and Small" }
   ];
-  
   return (
     <div className='cards-container'>
-      {phrases.map((phrase, index) => (
-        <div className='card' key={index}>
-          <p>{phrase}</p>
+      {phrases.map((phrase) => (
+        <div className='card' key={phrase.id}>
+          <p>{phrase.text}</p>
         </div>
       ))}
     </div>
