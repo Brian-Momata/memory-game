@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 function Cards({ onClick }) {
-  const phrases = [
+  const initialPhrases = [
     { id: uuidv4(), text: "Day and Night" },
     { id: uuidv4(), text: "Sunrise and Sunset" },
     { id: uuidv4(), text: "Hot and Cold" },
@@ -17,10 +17,27 @@ function Cards({ onClick }) {
     { id: uuidv4(), text: "Lost and Found" },
     { id: uuidv4(), text: "Big and Small" }
   ];
+
+  const [phrases, setPhrases] = useState(initialPhrases);
+  // Fisher-Yates (or Knuth) shuffle algorithm.
+  const shufflePhrases = () => {
+    const shuffled = [...phrases];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
+  const handleClickedCard = () => {
+    onClick();
+    setPhrases(shufflePhrases());
+  };
+
   return (
     <div className='cards-container'>
       {phrases.map((phrase) => (
-        <div className='card' key={phrase.id} onClick={onClick}>
+        <div className='card' key={phrase.id} onClick={handleClickedCard}>
           <p>{phrase.text}</p>
         </div>
       ))}
