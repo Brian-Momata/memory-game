@@ -2,7 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-function Cards({ onClick }) {
+function Cards({ onClick, resetGame }) {
   const initialPhrases = [
     { id: uuidv4(), text: "Day and Night" },
     { id: uuidv4(), text: "Sunrise and Sunset" },
@@ -19,6 +19,8 @@ function Cards({ onClick }) {
   ];
 
   const [phrases, setPhrases] = useState(initialPhrases);
+  const [clickedCards, setClickedCards] = useState([]);
+
   // Fisher-Yates (or Knuth) shuffle algorithm.
   const shufflePhrases = () => {
     const shuffled = [...phrases];
@@ -29,15 +31,21 @@ function Cards({ onClick }) {
     return shuffled;
   };
 
-  const handleClickedCard = () => {
-    onClick();
+  const handleClickedCard = (id) => {
+    if (clickedCards.includes(id)) {
+      resetGame();
+      setClickedCards([]);
+    } else {
+      onClick();
+      setClickedCards([...clickedCards, id]);
+    }
     setPhrases(shufflePhrases());
   };
 
   return (
     <div className='cards-container'>
       {phrases.map((phrase) => (
-        <div className='card' key={phrase.id} onClick={handleClickedCard}>
+        <div className='card' key={phrase.id} onClick={() => handleClickedCard(phrase.id)}>
           <p>{phrase.text}</p>
         </div>
       ))}
@@ -58,6 +66,11 @@ export default function App() {
       return newScore;
     });
   };
+
+  const reset = () => {
+    setScore(0);
+  };
+
   return (
     <div className='game-container'>
       <h1>Memory Game</h1>
@@ -66,7 +79,7 @@ export default function App() {
         <p>Best Score: {bestScore}</p>
       </div>
       <p>Get points by clicking each of the images only once!</p>
-      <Cards onClick={handleClick}/>
+      <Cards onClick={handleClick} resetGame={reset}/>
     </div>
   )
 }
