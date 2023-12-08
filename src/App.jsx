@@ -78,7 +78,7 @@ export default function App() {
         <p>Score: {score}</p>
         <p>Best Score: {bestScore}</p>
       </div>
-      <p>Get points by clicking each of the images only once!</p>
+      <p>Get points by clicking each of the cards only once!</p>
       <Cards onClick={handleClick} resetGame={reset}/>
     </div>
   )
